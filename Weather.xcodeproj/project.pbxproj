@@ -18,6 +18,7 @@
 		DC12B08026B1CA0800F96F04 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B07F26B1CA0800F96F04 /* WeatherTests.swift */; };
 		DC12B08B26B1CA0800F96F04 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B08A26B1CA0800F96F04 /* WeatherUITests.swift */; };
 		DC12B09A26B1D14A00F96F04 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B09926B1D14A00F96F04 /* Constants.swift */; };
+		DCAA1A0D26B2FB72009ADCBB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAA1A0C26B2FB72009ADCBB /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		DC12B08A26B1CA0800F96F04 /* WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUITests.swift; sourceTree = "<group>"; };
 		DC12B08C26B1CA0800F96F04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC12B09926B1D14A00F96F04 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		DCAA1A0C26B2FB72009ADCBB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				DC12B09926B1D14A00F96F04 /* Constants.swift */,
+				DCAA1A0C26B2FB72009ADCBB /* Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				DC12B06B26B1CA0600F96F04 /* SceneDelegate.swift in Sources */,
 				DC12B09A26B1D14A00F96F04 /* Constants.swift in Sources */,
 				B170B51026B2920600BA46E9 /* Weather.swift in Sources */,
+				DCAA1A0D26B2FB72009ADCBB /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

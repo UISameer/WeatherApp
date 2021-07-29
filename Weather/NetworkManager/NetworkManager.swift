@@ -8,15 +8,15 @@ class NetworkService: NetworkManager {
     
     static let shared = NetworkService()
     
-    var URL_LATITUDE = "0"
-    var URL_LONGITUDE = "0"
-    var URL_GET_ONE_CALL = ""
+    var URL_LATITUDE = "35"
+    var URL_LONGITUDE = "139"
+    var URL_GET = ""
     
     let session = URLSession(configuration: .default)
     
     func buildURL() -> String {
-        URL_GET_ONE_CALL = "lat=" + URL_LATITUDE + "&lon=" + URL_LONGITUDE + "&appid=" + Constants.AppKeyAndUrls.appKey.rawValue
-        return Constants.AppKeyAndUrls.baseURL.rawValue + URL_GET_ONE_CALL
+        URL_GET = "lat=" + URL_LATITUDE + "&lon=" + URL_LONGITUDE + "&appid=" + Constants.AppKeyAndUrls.appKey.rawValue
+        return Constants.AppKeyAndUrls.baseURL.rawValue + URL_GET
     }
     
     func setLatitude(_ latitude: String) {
