@@ -8,11 +8,10 @@ class HomeViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Ask for Authorisation from the User.
+        // Ask for Authorization from the User.
         self.locationManager.requestAlwaysAuthorization()
         
         // For use in foreground
@@ -23,6 +22,12 @@ class HomeViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
+        NetworkService.shared.request { weather in
+            print("Recieved response")
+        } onError: { error in
+            print("Error in response")
+        }
     }
 }
 
@@ -31,6 +36,7 @@ extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
+        mapView.camera.centerCoordinate = locValue
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
