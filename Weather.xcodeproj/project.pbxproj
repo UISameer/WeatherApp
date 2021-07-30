@@ -18,6 +18,7 @@
 		DC12B08026B1CA0800F96F04 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B07F26B1CA0800F96F04 /* WeatherTests.swift */; };
 		DC12B08B26B1CA0800F96F04 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B08A26B1CA0800F96F04 /* WeatherUITests.swift */; };
 		DC12B09A26B1D14A00F96F04 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B09926B1D14A00F96F04 /* Constants.swift */; };
+		DC62CDC326B481C700F7E124 /* Weather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC62CDC126B481C700F7E124 /* Weather.xcdatamodeld */; };
 		DCAA1A0D26B2FB72009ADCBB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCAA1A0C26B2FB72009ADCBB /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		DC12B08A26B1CA0800F96F04 /* WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUITests.swift; sourceTree = "<group>"; };
 		DC12B08C26B1CA0800F96F04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC12B09926B1D14A00F96F04 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		DC62CDC226B481C700F7E124 /* Weather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Weather.xcdatamodel; sourceTree = "<group>"; };
 		DCAA1A0C26B2FB72009ADCBB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 				DC12B06E26B1CA0600F96F04 /* Main.storyboard */,
 				DC12B07126B1CA0800F96F04 /* Assets.xcassets */,
 				DC12B07326B1CA0800F96F04 /* LaunchScreen.storyboard */,
+				DC62CDC126B481C700F7E124 /* Weather.xcdatamodeld */,
 				DC12B07626B1CA0800F96F04 /* Info.plist */,
 			);
 			path = Weather;
@@ -306,6 +309,7 @@
 				DC12B06926B1CA0600F96F04 /* AppDelegate.swift in Sources */,
 				B1427D2F26B27CFE00DBB519 /* NetworkManager.swift in Sources */,
 				DC12B06B26B1CA0600F96F04 /* SceneDelegate.swift in Sources */,
+				DC62CDC326B481C700F7E124 /* Weather.xcdatamodeld in Sources */,
 				DC12B09A26B1D14A00F96F04 /* Constants.swift in Sources */,
 				B170B51026B2920600BA46E9 /* Weather.swift in Sources */,
 				DCAA1A0D26B2FB72009ADCBB /* Extensions.swift in Sources */,
@@ -641,6 +645,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DC62CDC126B481C700F7E124 /* Weather.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DC62CDC226B481C700F7E124 /* Weather.xcdatamodel */,
+			);
+			currentVersion = DC62CDC226B481C700F7E124 /* Weather.xcdatamodel */;
+			path = Weather.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DC12B05D26B1CA0600F96F04 /* Project object */;
 }

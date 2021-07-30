@@ -23,9 +23,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         self.locationManager.requestWhenInUseAuthorization()
         
         let gestureRecognizer = UITapGestureRecognizer(
-                                      target: self, action:#selector(handleTap))
-            gestureRecognizer.delegate = self
-            mapView.addGestureRecognizer(gestureRecognizer)
+            target: self, action:#selector(handleTap))
+        gestureRecognizer.delegate = self
+        mapView.addGestureRecognizer(gestureRecognizer)
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -110,6 +110,14 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         self.performSegue(withIdentifier: Constants.SegueId.DetailVCSegue.rawValue, sender: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            print("Deleted")
+            self.arrayCityWeather.remove(at: indexPath.row)
+            self.tblView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }
 
