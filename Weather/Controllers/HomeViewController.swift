@@ -51,12 +51,35 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // Add annotation on tap
     @objc func handleTap(gestureRecognizer: UITapGestureRecognizer) {
-        let location = gestureRecognizer.location(in: mapView)
-        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
+        let point = gestureRecognizer.location(in: mapView)
+        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         // Add annotation:
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
+        
+        // Get city name from Reverese Geo coding
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        
+        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+            
+            // Place details
+            var placeMark: CLPlacemark!
+            placeMark = placemarks?[0]
+            
+            // City
+            if let city = placeMark.subAdministrativeArea as NSString? {
+                print(city)
+            }
+            
+//            let street = placeMark.thoroughfare! // addressDictionary!["Street"] as? String ?? " "
+//            let city =  placeMark.subAdministrativeArea! // addressDictionary!["City"] as? String ?? " "
+//            let state = placeMark.administrativeArea!//addressDictionary!["State"] as? String ?? " "
+//            let zip =  placeMark.isoCountryCode!// addressDictionary!["ZIP"] as? String ?? " "
+//            let country = placeMark.country! // addressDictionary!["Country"] as? String ?? " "
+            
+        })
     }
 }
 
