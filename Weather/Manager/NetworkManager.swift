@@ -66,24 +66,5 @@ class NetworkService: NetworkManager {
                 }
             }
         }.resume()
-        
-        
-//        Alamofire.AF.request(router.urlRequest).validate().responseJSON { (response) in
-//
-//            switch response.result {
-//                case .success:
-//                    print("Validation Successful")
-//
-//                    if let value = response.value {
-//                        print(value)
-//                        completionHandler(value as AnyObject)
-//                    }
-//
-//                case .failure(let error):
-//                    print(error)
-//                    completionHandler(error as AnyObject)
-//            }
-//        }
-        
     }
 }

@@ -1,5 +1,6 @@
 import UIKit
 import MapKit
+import CoreData
 
 class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
@@ -7,11 +8,24 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tblView: UITableView!
     
     let locationManager = CLLocationManager()
-    var arrayCityWeather = [CurrentWeather]()
-    let cellIdentifier = "CustomWeatherCellIdentifier"
+    let cellIdentifier = Constants.AppKeyAndUrls.cellIdentifier
+    let networkService = NetworkService.shared
+    var fetchedResultsController: NSFetchedResultsController<Temperature>!
+    var container: NSPersistentContainer!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        container = NSPersistentContainer(name: "Weather")
+        container.loadPersistentStores { storeDescription, error in
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+        }
+        
+        loadSavedData()
         
         // Hide extra rows
         tblView.tableFooterView = UIView()
@@ -32,20 +46,25 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
-        NetworkService.shared.request { weather in
-            self.arrayCityWeather.append(weather)
-            self.reloadData()
-            print("Recieved response")
-        } onError: { error in
-            print("Error in response")
-        }
+       
     }
     
-    // Reload table view
-    func reloadData(){
-        DispatchQueue.main.async {
-            self.tblView.reloadData()
+    func loadSavedData() {
+        if fetchedResultsController == nil {
+            let request = Temperature.createFetchRequest()
+            let sort = NSSortDescriptor(key: "city", ascending: true)
+            request.sortDescriptors = [sort]
+            request.fetchBatchSize = 20
+
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultsController.delegate = self
+        }
+
+        do {
+            try fetchedResultsController.performFetch()
+            tblView.reloadData()
+        } catch {
+            print("Fetch failed")
         }
     }
     
@@ -58,6 +77,15 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
         
+        networkService.setLatitude("\(coordinate.latitude)")
+        networkService.setLongitude("\(coordinate.longitude)")
+        
+        networkService.request { weather in
+            print("Recieved response")
+        } onError: { error in
+            print("Error in response")
+        }
+        
         // Get city name from Reverese Geo coding
         let geoCoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -69,17 +97,30 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             placeMark = placemarks?[0]
             
             // City
-            if let city = placeMark.subAdministrativeArea as NSString? {
+            if let city = placeMark.subAdministrativeArea as String? {
                 print(city)
+                annotation.title = city
+                
+                let temperature = Temperature(context: self.container.viewContext)
+                temperature.city = "\(city)"
+                temperature.lat = coordinate.latitude
+                temperature.long = coordinate.longitude
+                temperature.temperature = coordinate.longitude
+                
+                self.saveContext()
+                self.loadSavedData()
             }
-            
-//            let street = placeMark.thoroughfare! // addressDictionary!["Street"] as? String ?? " "
-//            let city =  placeMark.subAdministrativeArea! // addressDictionary!["City"] as? String ?? " "
-//            let state = placeMark.administrativeArea!//addressDictionary!["State"] as? String ?? " "
-//            let zip =  placeMark.isoCountryCode!// addressDictionary!["ZIP"] as? String ?? " "
-//            let country = placeMark.country! // addressDictionary!["Country"] as? String ?? " "
-            
         })
+    }
+    
+    func saveContext() {
+        if container.viewContext.hasChanges {
+            do {
+                try container.viewContext.save()
+            } catch {
+                print("An error occurred while saving: \(error)")
+            }
+        }
     }
 }
 
@@ -110,23 +151,28 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 70
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.arrayCityWeather.count
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? WeatherCustomCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.rawValue) as? WeatherCustomCell
         
-        let weatherInfo = self.arrayCityWeather[indexPath.row]
-        cell?.lblCity.text = weatherInfo.name
-        cell?.lblCityTemp.text = "\(String(describing: weatherInfo.main?.temp))"
+        let weatherInfo = fetchedResultsController.object(at: indexPath)
+        cell?.lblCity.text = weatherInfo.city
+        cell?.lblCityTemp.text = "\(weatherInfo.temperature)"
         
-        if let url = URL(string: Constants.AppKeyAndUrls.imageUrl.rawValue + (weatherInfo.weather?.first?.icon)! + ".png") {
-            cell?.imgViewWeather.load(url: url)
-        }
+//        if let url = URL(string: Constants.AppKeyAndUrls.imageUrl.rawValue + (weatherInfo.weather?.first?.icon)! + "@2x.png") {
+//            cell?.imgViewWeather.load(url: url)
+//        }
         return cell!
     }
     
@@ -137,9 +183,22 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("Deleted")
-            self.arrayCityWeather.remove(at: indexPath.row)
-            self.tblView.deleteRows(at: [indexPath], with: .automatic)
+            let temperature = fetchedResultsController.object(at: indexPath)
+            container.viewContext.delete(temperature)
+            saveContext()
+        }
+    }
+}
+
+extension HomeViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            tblView.deleteRows(at: [indexPath!], with: .automatic)
+
+        default:
+            break
         }
     }
 }

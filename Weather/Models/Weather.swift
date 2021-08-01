@@ -1,14 +1,13 @@
 import Foundation
 
-// MARK: - CurrentWeather
+// MARK: - Welcome
 struct CurrentWeather: Codable {
     var coord: Coord?
-    var weather: [Weather]?
+    var weather: [WeatherEnt]?
     var base: String?
     var main: Main?
     var visibility: Int?
     var wind: Wind?
-    var rain: Rain?
     var clouds: Clouds?
     var dt: Int?
     var sys: Sys?
@@ -16,42 +15,41 @@ struct CurrentWeather: Codable {
     var id: Int?
     var name: String?
     var cod: Int?
-    
+
     enum CodingKeys: String, CodingKey {
-        case coord
-        case weather
-        case base
-        case main
-        case visibility
-        case wind
-        case rain
-        case clouds
-        case dt
-        case sys
-        case timezone
-        case id
-        case name
-        case cod
+        case coord = "coord"
+        case weather = "weather"
+        case base = "base"
+        case main = "main"
+        case visibility = "visibility"
+        case wind = "wind"
+        case clouds = "clouds"
+        case dt = "dt"
+        case sys = "sys"
+        case timezone = "timezone"
+        case id = "id"
+        case name = "name"
+        case cod = "cod"
     }
 }
 
 // MARK: - Clouds
 struct Clouds: Codable {
     var all: Int?
-    
+
     enum CodingKeys: String, CodingKey {
-        case all
+        case all = "all"
     }
 }
 
 // MARK: - Coord
 struct Coord: Codable {
-    var lon: Int?
-    var lat: Int?
-    
+    var lon: Double?
+    var lat: Double?
+
     enum CodingKeys: String, CodingKey {
-        case lon
-        case lat
+        case lon = "lon"
+        case lat = "lat"
     }
 }
 
@@ -63,23 +61,14 @@ struct Main: Codable {
     var tempMax: Double?
     var pressure: Int?
     var humidity: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case temp
-        case feelsLike
-        case tempMin
-        case tempMax
-        case pressure
-        case humidity
-    }
-}
 
-// MARK: - Rain
-struct Rain: Codable {
-    var the1H: Double?
-    
     enum CodingKeys: String, CodingKey {
-        case the1H
+        case temp = "temp"
+        case feelsLike = "feels_like"
+        case tempMin = "temp_min"
+        case tempMax = "temp_max"
+        case pressure = "pressure"
+        case humidity = "humidity"
     }
 }
 
@@ -87,29 +76,31 @@ struct Rain: Codable {
 struct Sys: Codable {
     var type: Int?
     var id: Int?
+    var country: String?
     var sunrise: Int?
     var sunset: Int?
-    
+
     enum CodingKeys: String, CodingKey {
-        case type
-        case id
-        case sunrise
-        case sunset
+        case type = "type"
+        case id = "id"
+        case country = "country"
+        case sunrise = "sunrise"
+        case sunset = "sunset"
     }
 }
 
 // MARK: - Weather
-struct Weather: Codable {
+struct WeatherEnt: Codable {
     var id: Int?
     var main: String?
     var weatherDescription: String?
     var icon: String?
-    
+
     enum CodingKeys: String, CodingKey {
-        case id
-        case main
-        case weatherDescription
-        case icon
+        case id = "id"
+        case main = "main"
+        case weatherDescription = "description"
+        case icon = "icon"
     }
 }
 
@@ -117,11 +108,9 @@ struct Weather: Codable {
 struct Wind: Codable {
     var speed: Double?
     var deg: Int?
-    var gust: Double?
-    
+
     enum CodingKeys: String, CodingKey {
-        case speed
-        case deg
-        case gust
+        case speed = "speed"
+        case deg = "deg"
     }
 }
