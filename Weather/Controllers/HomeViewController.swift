@@ -81,36 +81,36 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         networkService.setLongitude("\(coordinate.longitude)")
         
         networkService.request { weather in
+            // Get city name from Reverese Geo coding
+            let geoCoder = CLGeocoder()
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            
+            geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+                
+                // Place details
+                var placeMark: CLPlacemark!
+                placeMark = placemarks?[0]
+                
+                // City
+                if let city = placeMark.subAdministrativeArea as String? {
+                    print(city)
+                    annotation.title = city
+                    
+                    let temperature = Temperature(context: self.container.viewContext)
+                    temperature.city = "\(city)"
+                    temperature.lat = coordinate.latitude
+                    temperature.long = coordinate.longitude
+                    temperature.temperature = weather.main!.temp!
+                    temperature.icon = weather.weather?.first?.icon!
+                    
+                    self.saveContext()
+                    self.loadSavedData()
+                }
+            })
             print("Recieved response")
         } onError: { error in
             print("Error in response")
         }
-        
-        // Get city name from Reverese Geo coding
-        let geoCoder = CLGeocoder()
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        
-        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-            
-            // Place details
-            var placeMark: CLPlacemark!
-            placeMark = placemarks?[0]
-            
-            // City
-            if let city = placeMark.subAdministrativeArea as String? {
-                print(city)
-                annotation.title = city
-                
-                let temperature = Temperature(context: self.container.viewContext)
-                temperature.city = "\(city)"
-                temperature.lat = coordinate.latitude
-                temperature.long = coordinate.longitude
-                temperature.temperature = coordinate.longitude
-                
-                self.saveContext()
-                self.loadSavedData()
-            }
-        })
     }
     
     func saveContext() {
@@ -129,7 +129,7 @@ extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
-        mapView.camera.centerCoordinate = locValue
+//        mapView.camera.centerCoordinate = locValue
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -170,9 +170,9 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource {
         cell?.lblCity.text = weatherInfo.city
         cell?.lblCityTemp.text = "\(weatherInfo.temperature)"
         
-//        if let url = URL(string: Constants.AppKeyAndUrls.imageUrl.rawValue + (weatherInfo.weather?.first?.icon)! + "@2x.png") {
-//            cell?.imgViewWeather.load(url: url)
-//        }
+        if let url = URL(string: Constants.AppKeyAndUrls.imageUrl.rawValue + weatherInfo.icon! + "@2x.png") {
+            cell?.imgViewWeather.load(url: url)
+        }
         return cell!
     }
     

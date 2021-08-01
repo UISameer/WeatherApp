@@ -12,6 +12,7 @@ extension Temperature {
     @NSManaged public var temperature: Double
     @NSManaged public var lat: Double
     @NSManaged public var long: Double
+    @NSManaged public var icon: String?
 
 }
 
