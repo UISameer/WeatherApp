@@ -6,6 +6,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var tblView: UITableView!
+    @IBOutlet weak var btnHelp: UIBarButtonItem!
+    @IBOutlet weak var btnSettings: UIBarButtonItem!
     
     let locationManager = CLLocationManager()
     let cellIdentifier = Constants.AppKeyAndUrls.cellIdentifier
@@ -16,6 +18,9 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        btnHelp.tintColor = UIColor.appColor(.icons)
+        btnSettings.tintColor = UIColor.appColor(.icons)
+
         // Load Container
         container = NSPersistentContainer(name: "Weather")
         container.loadPersistentStores { storeDescription, error in
@@ -47,7 +52,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
     }
     
     // Load saved data from Core Data
@@ -120,6 +124,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             print("Recieved response")
         }
     }
+    
+    @IBAction func actionShowHelp(_ sender: Any) {
+    }
+    
+    
+    @IBAction func actionShowSettings(_ sender: Any) {
+    }
+    
 }
 
 extension HomeViewController: CLLocationManagerDelegate {
@@ -165,6 +177,8 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier.rawValue) as? WeatherCustomCell
         
         let weatherInfo = fetchedResultsController.object(at: indexPath)
+        cell?.lblCity.textColor = UIColor.appColor(.title)
+        cell?.lblCityTemp.textColor = UIColor.appColor(.temperature)
         cell?.lblCity.text = weatherInfo.city
         cell?.lblCityTemp.text = "\(weatherInfo.temperature)"
         

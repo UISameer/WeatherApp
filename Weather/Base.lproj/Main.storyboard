@@ -99,8 +99,20 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Uil-LE-VJD" secondAttribute="trailing" constant="12" id="iG5-UY-P7S"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Weather App" id="kMc-Yb-g63"/>
+                    <navigationItem key="navigationItem" title="Weather App" id="kMc-Yb-g63">
+                        <barButtonItem key="leftBarButtonItem" title="Help" id="JPl-5a-w7K">
+                            <color key="tintColor" systemColor="systemBlueColor"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="gear" catalog="system" id="IMF-U1-lZU">
+                            <color key="tintColor" systemColor="systemBlueColor"/>
+                            <connections>
+                                <segue destination="jD4-de-oR3" kind="presentation" id="oIF-AT-btc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="btnHelp" destination="JPl-5a-w7K" id="y10-po-zUt"/>
+                        <outlet property="btnSettings" destination="IMF-U1-lZU" id="bJj-by-WkY"/>
                         <outlet property="mapView" destination="M3n-Je-u3q" id="X5R-mb-hSh"/>
                         <outlet property="tblView" destination="q1Y-WO-YY7" id="ID2-aR-hHX"/>
                     </connections>
@@ -108,6 +120,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1000.0000000000001" y="93.75"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="I0E-LZ-dFj">
+            <objects>
+                <viewController id="jD4-de-oR3" customClass="SettingsViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b7x-iR-7rr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1XD-bT-ua6">
+                                <rect key="frame" x="347" y="82" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="onTintColor" systemColor="systemOrangeColor"/>
+                                <connections>
+                                    <action selector="changeTheme:" destination="jD4-de-oR3" eventType="valueChanged" id="ajn-K6-AbX"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFF-IZ-rt2">
+                                <rect key="frame" x="20" y="76" width="287" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ChM-XX-FVb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jly-l0-Nrp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1782.608695652174" y="93.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CZ7-iH-Zjv">
@@ -129,8 +173,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="gear" catalog="system" width="128" height="119"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray4Color">
             <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

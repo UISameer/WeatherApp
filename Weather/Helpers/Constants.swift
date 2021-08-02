@@ -15,3 +15,16 @@ public struct Constants {
         case DetailVCSegue = "DetailVCSegue"
     }
 }
+
+// For theme switching
+enum AssetsColor : String {
+  case title
+  case temperature
+  case icons
+}
+
+extension UIColor {
+  static func appColor(_ name: AssetsColor) -> UIColor? {
+     return UIColor(named: name.rawValue)
+  }
+}
