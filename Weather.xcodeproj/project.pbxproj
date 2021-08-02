@@ -18,6 +18,7 @@
 		DC12B08026B1CA0800F96F04 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B07F26B1CA0800F96F04 /* WeatherTests.swift */; };
 		DC12B08B26B1CA0800F96F04 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B08A26B1CA0800F96F04 /* WeatherUITests.swift */; };
 		DC12B09A26B1D14A00F96F04 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC12B09926B1D14A00F96F04 /* Constants.swift */; };
+		DC58B27126B8402C004D043B /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC58B27026B8402C004D043B /* WeatherViewModel.swift */; };
 		DC62CDC326B481C700F7E124 /* Weather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC62CDC126B481C700F7E124 /* Weather.xcdatamodeld */; };
 		DC62CDCD26B721DC00F7E124 /* Temperature+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62CDCB26B721DC00F7E124 /* Temperature+CoreDataClass.swift */; };
 		DC62CDCE26B721DC00F7E124 /* Temperature+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC62CDCC26B721DC00F7E124 /* Temperature+CoreDataProperties.swift */; };
@@ -59,6 +60,7 @@
 		DC12B08A26B1CA0800F96F04 /* WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUITests.swift; sourceTree = "<group>"; };
 		DC12B08C26B1CA0800F96F04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC12B09926B1D14A00F96F04 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		DC58B27026B8402C004D043B /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		DC62CDC226B481C700F7E124 /* Weather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Weather.xcdatamodel; sourceTree = "<group>"; };
 		DC62CDCB26B721DC00F7E124 /* Temperature+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Temperature+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DC62CDCC26B721DC00F7E124 /* Temperature+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Temperature+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		DC12B06726B1CA0600F96F04 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				DC58B26F26B84012004D043B /* ViewModels */,
 				B170B50E26B291F900BA46E9 /* Models */,
 				B1427D2D26B27CE800DBB519 /* Manager */,
 				DC12B09E26B1D30B00F96F04 /* Controllers */,
@@ -178,6 +181,14 @@
 				DC12B06C26B1CA0600F96F04 /* HomeViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		DC58B26F26B84012004D043B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DC58B27026B8402C004D043B /* WeatherViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		DC62CDC626B719F100F7E124 /* DBManager */ = {
@@ -322,6 +333,7 @@
 				DC12B06D26B1CA0600F96F04 /* HomeViewController.swift in Sources */,
 				DC62CDCD26B721DC00F7E124 /* Temperature+CoreDataClass.swift in Sources */,
 				DC12B06926B1CA0600F96F04 /* AppDelegate.swift in Sources */,
+				DC58B27126B8402C004D043B /* WeatherViewModel.swift in Sources */,
 				B1427D2F26B27CFE00DBB519 /* NetworkManager.swift in Sources */,
 				DC12B06B26B1CA0600F96F04 /* SceneDelegate.swift in Sources */,
 				DC62CDC326B481C700F7E124 /* Weather.xcdatamodeld in Sources */,

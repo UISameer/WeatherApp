@@ -9,14 +9,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     let locationManager = CLLocationManager()
     let cellIdentifier = Constants.AppKeyAndUrls.cellIdentifier
-    let networkService = NetworkService.shared
     var fetchedResultsController: NSFetchedResultsController<Temperature>!
     var container: NSPersistentContainer!
-
+    let viewModel = WeatherViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Load Container
         container = NSPersistentContainer(name: "Weather")
         container.loadPersistentStores { storeDescription, error in
             self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -25,6 +25,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
         
+        // Load data
         loadSavedData()
         
         // Hide extra rows
@@ -46,25 +47,37 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-       
+        
     }
     
+    // Load saved data from Core Data
     func loadSavedData() {
         if fetchedResultsController == nil {
             let request = Temperature.createFetchRequest()
             let sort = NSSortDescriptor(key: "city", ascending: true)
             request.sortDescriptors = [sort]
             request.fetchBatchSize = 20
-
+            
             fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchedResultsController.delegate = self
         }
-
+        
         do {
             try fetchedResultsController.performFetch()
             tblView.reloadData()
         } catch {
             print("Fetch failed")
+        }
+    }
+    
+    // Save Context
+    func saveContext() {
+        if container.viewContext.hasChanges {
+            do {
+                try container.viewContext.save()
+            } catch {
+                print("An error occurred while saving: \(error)")
+            }
         }
     }
     
@@ -77,10 +90,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
         
-        networkService.setLatitude("\(coordinate.latitude)")
-        networkService.setLongitude("\(coordinate.longitude)")
-        
-        networkService.request { weather in
+        viewModel.getWeatherDataForCity(lat: coordinate.latitude, long: coordinate.longitude) { weather in
             // Get city name from Reverese Geo coding
             let geoCoder = CLGeocoder()
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -108,18 +118,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             })
             print("Recieved response")
-        } onError: { error in
-            print("Error in response")
-        }
-    }
-    
-    func saveContext() {
-        if container.viewContext.hasChanges {
-            do {
-                try container.viewContext.save()
-            } catch {
-                print("An error occurred while saving: \(error)")
-            }
         }
     }
 }
@@ -129,7 +127,7 @@ extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
-//        mapView.camera.centerCoordinate = locValue
+        //        mapView.camera.centerCoordinate = locValue
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -196,7 +194,7 @@ extension HomeViewController: NSFetchedResultsControllerDelegate {
         switch type {
         case .delete:
             tblView.deleteRows(at: [indexPath!], with: .automatic)
-
+            
         default:
             break
         }
