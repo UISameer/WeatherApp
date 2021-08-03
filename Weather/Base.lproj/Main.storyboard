@@ -8,6 +8,40 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Help View Controller-->
+        <scene sceneID="HZ0-6Y-CGp">
+            <objects>
+                <viewController id="ZXG-Qj-z1n" customClass="HelpViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Dnk-Ka-Akn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O4S-jZ-EOi">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="g5y-Ci-bgF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="O4S-jZ-EOi" firstAttribute="trailing" secondItem="g5y-Ci-bgF" secondAttribute="trailing" id="lvF-Hb-TfN"/>
+                            <constraint firstItem="O4S-jZ-EOi" firstAttribute="top" secondItem="g5y-Ci-bgF" secondAttribute="top" id="q56-cK-l0m"/>
+                            <constraint firstAttribute="bottom" secondItem="O4S-jZ-EOi" secondAttribute="bottom" id="rfh-oj-tEe"/>
+                            <constraint firstItem="O4S-jZ-EOi" firstAttribute="leading" secondItem="g5y-Ci-bgF" secondAttribute="leading" id="x07-b8-fly"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="O4S-jZ-EOi" id="NA5-ob-y6q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CjD-x1-Hpt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028.985507246377" y="-566.51785714285711"/>
+        </scene>
         <!--Weather App-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -102,6 +136,9 @@
                     <navigationItem key="navigationItem" title="Weather App" id="kMc-Yb-g63">
                         <barButtonItem key="leftBarButtonItem" title="Help" id="JPl-5a-w7K">
                             <color key="tintColor" systemColor="systemBlueColor"/>
+                            <connections>
+                                <segue destination="ZXG-Qj-z1n" kind="presentation" id="LFm-KE-zjX"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="gear" catalog="system" id="IMF-U1-lZU">
                             <color key="tintColor" systemColor="systemBlueColor"/>
@@ -125,29 +162,44 @@
         <scene sceneID="I0E-LZ-dFj">
             <objects>
                 <viewController id="jD4-de-oR3" customClass="SettingsViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="b7x-iR-7rr">
+                    <view key="view" contentMode="center" id="b7x-iR-7rr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1XD-bT-ua6">
-                                <rect key="frame" x="347" y="82" width="49" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dark Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFF-IZ-rt2">
+                                <rect key="frame" x="20" y="76" width="189" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="5dX-rZ-1VX"/>
+                                    <constraint firstAttribute="width" constant="189" id="lpJ-L9-Fux"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1XD-bT-ua6">
+                                <rect key="frame" x="281" y="76" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="Yhx-VR-AZY"/>
+                                    <constraint firstAttribute="height" constant="31" id="tCR-7f-mM1"/>
+                                </constraints>
                                 <color key="onTintColor" systemColor="systemOrangeColor"/>
                                 <connections>
                                     <action selector="changeTheme:" destination="jD4-de-oR3" eventType="valueChanged" id="ajn-K6-AbX"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Change Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFF-IZ-rt2">
-                                <rect key="frame" x="20" y="76" width="287" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ChM-XX-FVb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="TFF-IZ-rt2" firstAttribute="leading" secondItem="ChM-XX-FVb" secondAttribute="leading" constant="20" id="ESd-yF-tHn"/>
+                            <constraint firstItem="1XD-bT-ua6" firstAttribute="leading" secondItem="TFF-IZ-rt2" secondAttribute="trailing" constant="72" id="G3d-rV-o1l"/>
+                            <constraint firstItem="1XD-bT-ua6" firstAttribute="top" secondItem="TFF-IZ-rt2" secondAttribute="top" id="Rbm-dv-g4w"/>
+                            <constraint firstItem="TFF-IZ-rt2" firstAttribute="top" secondItem="ChM-XX-FVb" secondAttribute="top" constant="76" id="e1W-c3-KTG"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="themeSwitcher" destination="1XD-bT-ua6" id="kQV-IE-Grn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jly-l0-Nrp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

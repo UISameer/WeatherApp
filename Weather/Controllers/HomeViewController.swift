@@ -68,6 +68,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         
         do {
             try fetchedResultsController.performFetch()
+            showAnnotations()
             tblView.reloadData()
         } catch {
             print("Fetch failed")
@@ -125,13 +126,18 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @IBAction func actionShowHelp(_ sender: Any) {
+    // Show all annotations
+    func showAnnotations() {
+        if let weatherInfoObjects = fetchedResultsController.fetchedObjects {
+            
+            for weatherInfo in weatherInfoObjects {
+
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: weatherInfo.lat, longitude: weatherInfo.long)
+                mapView.addAnnotation(annotation)
+            }
+        }
     }
-    
-    
-    @IBAction func actionShowSettings(_ sender: Any) {
-    }
-    
 }
 
 extension HomeViewController: CLLocationManagerDelegate {

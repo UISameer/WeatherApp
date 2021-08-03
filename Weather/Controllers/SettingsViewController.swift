@@ -2,8 +2,12 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var themeSwitcher: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        themeSwitcher.isOn = UIApplication.shared.keyWindow?.overrideUserInterfaceStyle == .dark ? true : false
     }
     
     @IBAction func changeTheme(_ sender: UISwitch) {
