@@ -111,12 +111,16 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
                     print(city)
                     annotation.title = city
                     
+                    // Save data in Core Data
                     let temperature = Temperature(context: self.container.viewContext)
                     temperature.city = "\(city)"
                     temperature.lat = coordinate.latitude
                     temperature.long = coordinate.longitude
                     temperature.temperature = weather.main!.temp!
                     temperature.icon = weather.weather?.first?.icon!
+                    temperature.humidity = weather.main!.humidity!
+                    temperature.windSpeed = weather.wind!.speed!
+                    temperature.clouds = weather.weather?.first?.weatherDescription
                     
                     self.saveContext()
                     self.loadSavedData()
@@ -193,17 +197,19 @@ extension HomeViewController: UITableViewDelegate,UITableViewDataSource {
         }
         return cell!
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.performSegue(withIdentifier: Constants.SegueId.DetailVCSegue.rawValue, sender: indexPath.row)
-    }
-    
+        
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let temperature = fetchedResultsController.object(at: indexPath)
             container.viewContext.delete(temperature)
             saveContext()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: Constants.SegueId.DetailVCSegue.rawValue) as? DetailViewController {
+            vc.detailItem = fetchedResultsController.object(at: indexPath)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

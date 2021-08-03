@@ -12,7 +12,7 @@ public struct Constants {
     }
     
     enum SegueId: String {
-        case DetailVCSegue = "DetailVCSegue"
+        case DetailVCSegue = "DetailVC"
     }
 }
 
